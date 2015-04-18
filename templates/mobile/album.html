@@ -16,12 +16,12 @@
 {% for item in [ items[0] ] %}
 {% set type = item.processor %}
     <meta property="og:type" content="{{ mimetype }}" />
-    <meta property="og:site_name" content="MediaCrush" />
+    <meta property="og:site_name" content="NERDZCrush" />
     {% if type.startswith("video") %}
         <meta property="og:image" content="{{ root }}/{{ item.hash }}.png" />
         <meta property="twitter:card" content="player" />
-        <meta property="twitter:title" content="MediaCrush" />
-        <meta property="twitter:description" content="A video shared with MediaCrush." />
+        <meta property="twitter:title" content="NERDZCrush" />
+        <meta property="twitter:description" content="A video shared with NERDZCrush." />
         <meta property="twitter:image" content="{{ root }}/{{ item.hash }}.png">
     {% elif type.startswith("audio") %}
         <meta property="og:image" content="{{ root }}/static/audio.png" />

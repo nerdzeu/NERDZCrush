@@ -5,12 +5,12 @@
         <meta type="robots" content="noindex,nofollow" />
         <meta property="og:type" content="{{ mimetype }}" />
         <meta property="og:image" content="{{ root }}/{{ original }}" />
-        <meta property="og:site_name" content="MediaCrush" />
+        <meta property="og:site_name" content="NERDZCrush" />
         {% if mobile %}
         <meta name="viewport" content="width=device-width" />
         {% endif %}
         <meta property="og:type" content="{{ mimetype }}" />
-        <meta property="og:site_name" content="MediaCrush" />
+        <meta property="og:site_name" content="NERDZCrush" />
         {% if processor.startswith("video") %}
             {# Generated thumbnail #}
             <meta property="og:image" content="{{ root }}/{{ filename }}.png" />
@@ -19,7 +19,7 @@
         {% else %}
             <meta property="og:image" content="{{ root }}/{{ original }}" />
         {% endif %}
-        <title>MediaCrush</title>
+        <title>NERDZCrush</title>
         <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
         <link rel="icon" type="image/vnd.microsoft.icon" href="/static/favicon.ico" />
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='view.css') }}" />

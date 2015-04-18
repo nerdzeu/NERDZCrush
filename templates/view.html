@@ -22,7 +22,7 @@
 {% block meta %}
     <meta name="robots" content="noindex">
     <meta property="og:type" content="{{ mimetype }}" />
-    <meta property="og:site_name" content="MediaCrush" />
+    <meta property="og:site_name" content="NERDZCrush" />
     {% if processor.startswith("video") %}
         {# Generated thumbnail #}
         <meta property="og:image" content="{{ root }}/{{ shard(filename) }}.jpg" />
@@ -30,12 +30,12 @@
         {% if file.title %}
         <meta property="twitter:title" content="{{ file.title }}" />
         {% else %}
-        <meta property="twitter:title" content="MediaCrush" />
+        <meta property="twitter:title" content="NERDZCrush" />
         {% endif %}
         {% if file.description %}
         <meta property="twitter:description" content="{{ file.description }}" />
         {% else %}
-        <meta property="twitter:description" content="A video shared with MediaCrush." />
+        <meta property="twitter:description" content="A video shared with NERDZCrush." />
         {% endif %}
         <meta property="twitter:player" content="{{ share('frame', filename) }}" />
         <meta property="twitter:player:stream" content="{{ media_url(filename) }}.mp4" />
@@ -92,7 +92,7 @@
     <p>Anonymous users are especially encouraged to click "report" for all media that violates our <a href="/serious">terms of use</a>.</p>
     </noscript>
     {% if compression %}
-    {{ compression }}% faster on MediaCrush!
+    {{ compression }}% faster on NERDZCrush!
     {% endif %}
 </div>
 <div class="hidden" id="embed">
