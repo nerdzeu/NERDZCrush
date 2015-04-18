@@ -91,7 +91,6 @@ def inject():
         'dwolla_id': _cfg("dwolla_id"),
         'coinbase_id': _cfg("coinbase_id"),
         'flattr_id': _cfg("flattr_id"),
-        'dark_theme': "dark_theme" in request.cookies,
         'ads': ads,
         'ad_id': _cfg("project_wonderful_id"),
         'notice_text': notice_text,

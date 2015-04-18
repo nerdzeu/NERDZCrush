@@ -30,9 +30,7 @@
         {% endblock %}
         <link rel="icon" type="image/vnd.microsoft.icon" href="/static/favicon.ico" />
         {% block styles %}{% endblock %}
-        {% if dark_theme %}
         <link rel="stylesheet" href="{{ url_for('static', filename='dark.css') }}">
-        {% endif %}
     </head>
     <body>
         <div class="container">
@@ -48,10 +46,8 @@
                     <li><a href="/">Upload</a></li>
                     <li><a href="/apps">Apps</a></li>
                     <li><a href="/donate">Donate</a></li>
-                    <li><a href="//blog.mediacru.sh">Blog</a></li>
                     <li><a href="/about">About</a></li>
                 </ul>
-                <a href="javascript:switchTheme();" class="pull-right small hidden-if-noscript">{% if dark_theme %}Light theme{% else %}Dark theme{% endif %}</a>
                 {% else %}
                 <ul>
                     <li><a href="/">Upload</a></li>
@@ -64,15 +60,6 @@
                 {% block content %}{% endblock %}
             </div>
         </div>
-        {% block feedback %}
-        <div id="feedback" class="hidden-if-noscript">
-            <a href="#" id="toggle-feedback"><img src="/static/feedback.png" alt="How are we doing?" /></a>
-            <div>
-                <textarea id="feedback-text"></textarea>
-                <a class="button" href="#" id="send-feedback">Send feedback</a>
-            </div>
-        </div>
-        {% endblock %}
         {% block analytics %}
         {% include "analytics.html" %}
         {% endblock %}

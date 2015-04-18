@@ -24,13 +24,13 @@
         <meta property="twitter:card" content="player" />
         <meta property="twitter:title" content="MediaCrush" />
         <meta property="twitter:description" content="A video shared with MediaCrush." />
-        <meta property="twitter:image" content="https://mediacru.sh/{{ item.hash }}.jpg">
+        <meta property="twitter:image" content="{{ root }}/{{ item.hash }}.jpg">
     {% elif type.startswith("audio") %}
-        <meta property="og:image" content="https://mediacru.sh/static/audio.png" />
+        <meta property="og:image" content="{{ root }}/static/audio.png" />
     {% else %}
-        <meta property="og:image" content="https://mediacru.sh/{{ item.original }}" />
+        <meta property="og:image" content="{{ root }}/{{ item.original }}" />
         <meta name="twitter:card" content="photo">
-        <meta name="twitter:image" content="https://mediacru.sh/{{ item.original }}">
+        <meta name="twitter:image" content="{{ root }}/{{ item.original }}">
     {% endif %}
 {% endfor %}
 {% endblock %}

@@ -18,17 +18,17 @@
     <meta property="og:type" content="{{ mimetype }}" />
     <meta property="og:site_name" content="MediaCrush" />
     {% if type.startswith("video") %}
-        <meta property="og:image" content="https://mediacru.sh/{{ item.hash }}.png" />
+        <meta property="og:image" content="{{ root }}/{{ item.hash }}.png" />
         <meta property="twitter:card" content="player" />
         <meta property="twitter:title" content="MediaCrush" />
         <meta property="twitter:description" content="A video shared with MediaCrush." />
-        <meta property="twitter:image" content="https://mediacru.sh/{{ item.hash }}.png">
+        <meta property="twitter:image" content="{{ root }}/{{ item.hash }}.png">
     {% elif type.startswith("audio") %}
-        <meta property="og:image" content="https://mediacru.sh/static/audio.png" />
+        <meta property="og:image" content="{{ root }}/static/audio.png" />
     {% else %}
-        <meta property="og:image" content="https://mediacru.sh/{{ item.original }}" />
+        <meta property="og:image" content="{{ root }}/{{ item.original }}" />
         <meta name="twitter:card" content="photo">
-        <meta name="twitter:image" content="https://mediacru.sh/{{ item.original }}">
+        <meta name="twitter:image" content="{{ root }}/{{ item.original }}">
     {% endif %}
 {% endfor %}
 {% endblock %}
@@ -45,7 +45,7 @@
 <div class="hidden" id="embed">
     <div class="center">
         <p>Copy this HTML and paste it into your website:</p>
-        <input id="embed-value" type="text" value='&lt;iframe src="https://mediacru.sh/{{ filename }}/frame" frameborder="0" allowFullscreen></iframe>' class="selectall" />
+        <input id="embed-value" type="text" value='&lt;iframe src="{{ root }}/{{ filename }}/frame" frameborder="0" allowFullscreen></iframe>' class="selectall" />
         <p>Are you a developer? You might want to read our <a href="/docs">developer documentation</a>.
         Albums are best embedded with <a href="/docs/mediacrush.js">mediacrush.js</a>.</p>
     </div>
