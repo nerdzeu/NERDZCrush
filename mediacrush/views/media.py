@@ -134,14 +134,14 @@ def render_media(f, album=False):
 class MediaView(FlaskView):
     route_base = '/'
 
-    def _send_file(self, id, base=_cfg("storage_folder")):
+    def _send_file(self, id, base=_cfg("storage_folder"), as_attachment=False):
         if ".." in id or id.startswith("/"):
             abort(403)
 
         if "." in id:
             path = os.path.join(base, id)
-            if os.path.exists(path): # These requests are handled by nginx if it's set up
-                return send_file(path, as_attachment=True)
+            if os.path.exists(path):
+                return send_file(path, as_attachment=as_attachment)
             else:
                 return abort(404)
 
@@ -170,7 +170,7 @@ class MediaView(FlaskView):
             return self._send_file(f.split("/")[1], base=current_app.static_folder)
         elif p.startswith("download/"):
             path = '/'.join(f.split("/")[1:])
-            return self._send_file(path)
+            return self._send_file(path, as_attachment=True)
         else:
             return self._send_file(f)
 
