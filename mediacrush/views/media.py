@@ -141,7 +141,7 @@ class MediaView(FlaskView):
         if "." in id:
             path = os.path.join(base, id)
             if os.path.exists(path):
-                return send_file(path, as_attachment=as_attachment)
+                return send_file(path, as_attachment=as_attachment, mimetype=get_mimetype(path))
             else:
                 return abort(404)
 
