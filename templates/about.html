@@ -14,7 +14,7 @@
         <h2 class="hidden" id="technical-intro">We are open source and free.</h2>
     </div>
     <ul class="nav">
-        <li class="selected"><a href="#about">About MediaCrush</a>
+        <li class="selected"><a href="#about">About NERDZCrush</a>
         </li><li><a href="#goodwill">Goodwill & Freedom</a>
         </li><li><a href="#uploading">Uploading Stuff</a>
         </li><li><a href="#technical">Technical Info</a></li>
@@ -22,26 +22,8 @@
 </div>
 <div class="pill-content">
     <div id="about">
-        <p class="center">MediaCrush is an <strong>open-source</strong>, <strong>privacy-first</strong> website for
+        <p class="center">NERDZCrush is a fork of MediaCrush an <strong>open-source</strong>, <strong>privacy-first</strong> website for
         hosting video, audio, and images.</p>
-        <blockquote>
-            {% if choice == 0 %}
-            <p>I love how fast your website loads! It feels much more responsive than other, compareably minimalistic sites. How did you do it?</p>
-            <footer>&mdash; maho, on Hacker News</footer>
-            {% elif choice == 1 %}
-            <p>This is awesome, and I really appreciate the effort toward privacy/transparency.</p>
-            <footer>&mdash; imperialWicket, on Hacker News</footer>
-            {% elif choice == 2 %}
-            <p>I just want to wish you the best with your project and thanks a bunch for this sophisticated contribution to FOSS!</p>
-            <footer>&mdash; orsciro, on the Arch Linux forums</footer>
-            {% elif choice == 3 %}
-            <p>Stellar work. Your openness about everything is incredibly refreshing, and integration with RES was an awesome move. It's an easy choice to make the switch!</p>
-            <footer>&mdash; burntsushi, on Hacker News</footer>
-            {% elif choice == 4 %}
-            <p>This is pretty much everything I've wanted in an image hosting service plus audio and video? Impressive.</p>
-            <footer>&mdash; forwardslash, on Hubski</footer>
-            {% endif %}
-        </blockquote>
         {#
         <p>In the past month, MediaCrush has proudly served media to...</p>
         <div class="grid">
@@ -67,35 +49,25 @@
             </div>
         </div>
         #}
-        <p>We're built by a worldwide team of software developers who offer their time and love for free to make the best
-        hosting website possible. MediaCrush doesn't want to build another social network like other hosting sites seem to
-        be shooting for - we aim to do one thing and do it well. Our one thing is to host media, and we do it pretty damn
-        well. We'll host your files from now until the end of time, and we'll do it in high quality with your privacy in
-        mind.</p>
-        <p>Want to know more? You can help shape MediaCrush by participating in the discussion online. If you want to have
-        your voice heard, need some help, or just want to chat, you can tweet to
-        <a href="https://twitter.com/mediacru_sh">@mediacru_sh</a>, or drop some notes in
-        <a href="https://www.reddit.com/r/mediacrush">/r/mediacrush</a>. We're also an email away if you need us:
-        <a href="mailto:support@mediacru.sh">support@mediacru.sh</a>.</p>
         <p>The maximum file size is <strong>50 MB</strong>. <a href="/">Knock yourself out</a>.</p>
     </div>
     <div id="goodwill" class="hidden">
-        <p class="center">First and foremost, MediaCrush is for users. We respect <strong>user privacy</strong> and
+        <p class="center">First and foremost, NERDZCrush is for users. We respect <strong>user privacy</strong> and
         we are <strong>completely transparent</strong>.</p>
-        <p>MediaCrush is built by people who strongly value privacy and freedom. MediaCrush does not store information about
+        <p>NERDZCrush is built by people who strongly value privacy and freedom. NERDZCrush does not store information about
         you and we respect settings like Do Not Track. We spent months looking for an ad provider that was aligned with our
         philosopies (read more about that <a href="/advertising">here</a>). Even though we love Project Wonderful and think
         they do a great job advertising, we also love our users and give you the chance to opt-out of ads
         <a href="#" class="ad-opt-out">with one click</a>. And if you're ever curious about how much ad revenue we make, or
         what our donations look like, or how much traffic we're getting: we publish
         <a href="https://blog.mediacru.sh">monthly reports</a> full of useful information like that.</p>
-        <p>Even more importantly, MediaCrush is <a href="https://en.wikipedia.org/wiki/Open-source_software" target="_blank">
+        <p>Even more importantly, NERDZCrush is <a href="https://en.wikipedia.org/wiki/Open-source_software" target="_blank">
         open-source</a>, which means that anyone in the world is allowed to get a copy of our code, modify it, run it on their
         own servers, or offer improvements to this site. As a result, lots of software developers have fiddled with our code
         and sent us improvements and tweaks, making it even better than we could ever make alone. Additionally, since people
-        are allowed to run it themselves, there are several alternate versions of MediaCrush out there for those who want to
+        are allowed to run it themselves, there are several alternate versions of NERDZCrush out there for those who want to
         have complete control over their media.</p>
-        <p>MediaCrush utilizes TLS with <a href="https://en.wikipedia.org/wiki/Forward_secrecy">perfect forward secrecy</a>, and <a href="https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security">Strict Transport Security</a>.
+        <p>NERDZCrush utilizes TLS with <a href="https://en.wikipedia.org/wiki/Forward_secrecy">perfect forward secrecy</a>, and <a href="https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security">Strict Transport Security</a>.
         See our security report at <a href="https://www.ssllabs.com/ssltest/analyze.html?d=mediacru.sh">Qualys SSL Labs</a>.</p>
         <p>For those of you who are even more privacy concious, we even have a
         <a href="https://en.wikipedia.org/wiki/Tor_hidden_service#Hidden_services">hidden service</a> from which you can upload files
@@ -103,7 +75,7 @@
         the site anonymously.</p>
     </div>
     <div id="uploading" class="hidden">
-        <p class="center">MediaCrush supports nearly every <strong>image, audio, and video</strong> format ever made.</p>
+        <p class="center">NERDZCrush supports nearly every <strong>image, audio, and video</strong> format ever made.</p>
         <ul id="types" class="inline">
             <li class="images">
                 Images
@@ -133,16 +105,16 @@
     <div id="technical" class="hidden">
         <p class="center">This site is built with <strong>python, ffmpeg</strong>, and tons more open tech. There's a great
         public API, too.</p>
-        <p>Want to hack on MediaCrush from your own code? Maybe you want to build a new <a href="/apps">app</a> based on MediaCrush?
+        <p>Want to hack on NERDZCrush from your own code? Maybe you want to build a new <a href="/apps">app</a> based on NERDZCrush?
         Well, great, cause we've got a full-blown, free API that does everything you're hoping for. You can browse <a href="/docs">the
         documentation</a> to learn about each endpoint, find an API wrapper, and get directions for help.</p>
-        <p>Or perhaps you want to set up your own instance of MediaCrush, on your own servers? You'll need to be a fairly
-        experienced Linux sysadmin, but there are detailed instructions for you <a href="https://github.com/MediaCrush/MediaCrush">on
+        <p>Or perhaps you want to set up your own instance of NERDZCrush, on your own servers? You'll need to be a fairly
+        experienced Linux sysadmin, but there are detailed instructions for you <a href="https://github.com/nerdzeu/MediaCrush">on
         GitHub</a>.</p>
-        <p>Or best of all, do you want to contribute some code to MediaCrush? That's great, because we love to have extra
+        <p>Or best of all, do you want to contribute some code to NERDZCrush? That's great, because we love to have extra
         contributions. There are guidelines for contributors
-        <a href="https://github.com/MediaCrush/MediaCrush/blob/master/CONTRIBUTING.md">on GitHub</a> and we're looking forward
-        to seeing what you can come up with. We've got <a href="https://github.com/MediaCrush/MediaCrush/issues">a long backlog</a>
+        <a href="https://github.com/nerdzeu/MediaCrush/blob/master/CONTRIBUTING.md">on GitHub</a> and we're looking forward
+        to seeing what you can come up with. We've got <a href="https://github.com/nerdzeu/MediaCrush/issues">a long backlog</a>
         and your help would be great.</p>
     </div>
 </div>
