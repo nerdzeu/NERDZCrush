@@ -3,7 +3,7 @@
     var script = scripts[scripts.length - 1];
     window.addEventListener('load', function() {
         var xhr = new XMLHttpRequest();
-        var root = "https://mediacru.sh/";
+        var root = "https://media.nerdz.eu/";
         xhr.open('GET', root + '{{ hash }}.json');
         xhr.setRequestHeader('X-Requested-With','XMLHttpRequest');
         xhr.onload = function() {
