@@ -50,9 +50,6 @@
             {% endif %}
             window.addEventListener('load', function() {
                 var hash = window.location.hash;
-                if (hash.length > 1) {
-                    handleHash(hash);
-                }
                 var body = document.body, html = document.documentElement;
                 var width = Math.max(body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollWidth, html.offsetWidth);
                 {% if processor.startswith('audio') %}
@@ -84,10 +81,6 @@
                     }
                 });
             }, false);
-            function handleHash(hash) {
-                if (mediaHashHandler)
-                    mediaHashHandler(hash.substr(1));
-            }
             function updateSize(width, height) {
                 window.top.postMessage({ width: width, height: height, media: "{{ filename }}" }, '*');
             }

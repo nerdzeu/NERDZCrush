@@ -1,76 +1,18 @@
 {% if mimetype == 'image/gif' and mobile %}
-<style>
-    .media-select {
-        position: relative;
-        height: 180px;
-        margin-bottom: 10px;
-    }
-
-    .media-select .left, .media-select .right {
-        position: absolute;
-        display: block;
-        top: 0;
-        width: 50%;
-        height: 100%;
-        color: #fff;
-        text-align: center;
-        text-decoration: none;
-        padding-top: 10px;
-    }
-
-    .media-select .left {
-        left: 0;
-        background: #0C0;
-    }
-    
-    .media-select .right {
-        right: 0;
-        background: #08c;
-    }
-</style>
-
 <script>
 window.addEventListener('load', function() {
-    var selectHtml5 = document.getElementById('selectHtml5-{{ filename }}');
-    var selectGif = document.getElementById('selectGIF-{{ filename }}');
-    selectHtml5.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.getElementById('media-select-{{ filename }}').className = 'hidden';
-        var video = document.getElementById('video-option-{{ filename }}');
-        video.className = '';
-        video.play();
-    });
-    selectGif.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.getElementById('media-select-{{ filename }}').className = 'hidden';
-        var gif = document.getElementById('gif-option-{{ filename }}');
-        gif.src = '/{{ filename }}.gif';
-        gif.className = '';
-    });
+	document.getElementById('video-option-{{ filename }}').play();
 }, false);
 </script>
 
 {% if file.title and not embedded %}
     <h3>{{ file.title }}</h3>
 {% endif %}
-<div id="media-select-{{ filename }}" class="media-select">
-    <a href="#" class="left" id="selectHtml5-{{ filename }}">
-        <div>Tap here to</div>
-        <h3>View as<br />HTML 5</h3>
-        <div>Loads {{ compression }}% faster</div>
-    </a>
-    <a href="#" class="right" id="selectGIF-{{ filename }}">
-        <div>Tap here to</div>
-        <h3>View as<br />GIF</h3>
-        <div>Loads more reliably</div>
-    </a>
-</div>
-<video class="hidden" id="video-option-{{ filename }}" controls {% if flags['mute'] %}muted="true"{% endif %} {% if flags['loop'] %}loop{% endif %} poster="{{ cdn }}/{{ shard(filename) }}.jpg">
+<video id="video-option-{{ filename }}" controls {% if flags['mute'] %}muted="true"{% endif %} {% if flags['loop'] %}loop{% endif %} poster="{{ cdn }}/{{ shard(filename) }}.jpg">
     <source src="{{ cdn_url(filename + '.mp4') }}" type='video/mp4;'>
     <source src="{{ cdn_url(filename + '.webm') }}" type='video/webm;'>
     <source src="{{ cdn_url(filename + '.ogv') }}" type='video/ogg'>
 </video>
-<img src="this space intentionally left blank" class="hidden" id="gif-option-{{ filename }}" />
 {% else %}
 {% if file.title and not embedded %}
     <h3>{{ file.title }}</h3>
