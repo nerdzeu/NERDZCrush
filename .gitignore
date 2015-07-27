@@ -22,6 +22,12 @@ static/about.js
 static/troubleshooting.js
 static/home.js
 static/home-files.js
+static/app-mobile.js
+static/btoa.js
+static/captionator.js
+static/libjass.js
+static/md5.js
+static/mediacrush.js
 
 static/view-responsive.css
 static/feedback.css

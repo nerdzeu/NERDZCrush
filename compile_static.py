@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 from mediacrush.app import app
 from mediacrush.config import _cfg, _cfgi
-from mediacrush.files import extension
 
 import os
 import scss
@@ -21,6 +20,9 @@ def prepare():
     compiler = scss.Scss(scss_opts = {
         'style': 'compressed' if not app.debug else None
     })
+
+    # Unsafe extnsion function used only here
+    extension = lambda f: f.rsplit('.', 1)[1].lower()
 
     # Compile styles (scss)
     d = os.walk('styles')
