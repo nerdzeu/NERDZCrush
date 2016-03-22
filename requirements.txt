@@ -16,7 +16,7 @@ celery==3.1.5
 docopt==0.6.1
 gunicorn==17.5
 itsdangerous==0.22
-kombu==3.0.6
+kombu==3.0.30
 mandrill==1.0.42
 pep8==1.4.6
 ply==3.4
