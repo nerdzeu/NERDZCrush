@@ -2,11 +2,12 @@ import json
 from mediacrush.config import _cfg
 from flask import request, current_app, redirect
 from flaskext.bcrypt import generate_password_hash
+from netaddr import all_matching_cidrs
 
 def get_ip():
     ip = request.remote_addr
-    if (ip == '127.0.0.1' or ip == '127.0.0.2') and "X-Real-IP" in request.headers:
-        ip = request.headers.get("X-Real-IP")
+    if (all_matching_cidrs(ip, [_cfg("trusted_proxies")]) != []) and "X-Forwarded-For" in request.headers:
+        ip = request.headers.get("X-Forwarded-For")
     return ip
 
 def makeMask(n):

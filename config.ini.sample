@@ -13,6 +13,10 @@ domain = mediacru.sh
 incoming_domain = mediacru.sh # If you're proxying to this server, change this to what the servers set the Host to
 tor_domain = 
 
+# If you're proxying to this server, you want to get the real ip address.
+# Set the trusted proxies directive with your trusted proxy address or range
+trusted_proxies = 172.17.0.0/16
+
 # URLs to media files will be prefixed with this. Do not include a trailing forward slash.
 # If you don't use a CDN, you can leave this empty.
 cdn =
