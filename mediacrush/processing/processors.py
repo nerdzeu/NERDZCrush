@@ -123,7 +123,7 @@ class ImageProcessor(Processor):
         self._execute("convert {0} {1}.png")
 
     def async(self):
-        self._execute("optipng -o5 {1}.png")
+        self._execute("optipng -o1 {1}.png")
 
 # We have some special optimizations for specific filetypes
 # These customized processors follow
@@ -136,7 +136,7 @@ class PNGProcessor(Processor):
         self._execute(copy)
 
     def async(self):
-        self._execute("optipng -o5 {1}.png")
+        self._execute("optipng -o1 {1}.png")
 
 class JPEGProcessor(Processor):
     time = 5
@@ -165,7 +165,7 @@ class XCFProcessor(Processor):
         self._execute('xcf2png {0} -o {1}.png')
 
     def async(self):
-        self._execute('optipng -o5 {1}.png')
+        self._execute('optipng -o1 {1}.png')
 
 class DefaultProcessor(Processor):
     def sync(self):
