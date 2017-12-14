@@ -5,7 +5,6 @@ EXTENSIONS = {
     "image/gif": "gif",
     "image/jpeg": "jpg",
     "image/png": "png",
-    "image/svg+xml": "svg",
     "text/plain": "txt",
     "video/mp4": "mp4",
     "video/ogg": "ogv",
