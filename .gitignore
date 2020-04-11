@@ -4,6 +4,7 @@ local/
 *.swp
 *.rdb
 storage/
+venv/
 
 static/api.js
 static/direct.js
