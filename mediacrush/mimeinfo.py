@@ -11,9 +11,11 @@ EXTENSIONS = {
     "video/webm": "webm",
 }
 
+
 def extension(f):
-    ext = f.rsplit('.', 1)[1].lower()
+    ext = f.rsplit(".", 1)[1].lower()
     return ext if ext in EXTENSIONS.values() else "fuck"
+
 
 def get_mimetype(url):
     ext = extension(url) if "." in url else url

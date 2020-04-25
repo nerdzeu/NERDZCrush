@@ -7,7 +7,7 @@ from mediacrush.config import _cfg, _cfgi
 import sys
 import json
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     files = File.get_all()
     count = len(files)
 
@@ -24,6 +24,8 @@ if __name__ == '__main__':
 
     print "\n%d/%d files processed, errors:" % (done, count), errors
 
+
 def normalise_processor(processor):
-    if not processor: return None
+    if not processor:
+        return None
     return processor.split("/")[0] if "/" in processor else processor

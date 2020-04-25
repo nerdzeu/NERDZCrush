@@ -1,8 +1,9 @@
 from ..objects import File, Album, Feedback, RedisObject, FailedFile
 from ..files import delete_file
 
+
 def files_delete(arguments):
-    hash = arguments['<hash>']
+    hash = arguments["<hash>"]
     if hash.startswith("./"):
         hash = hash[2:]
 
@@ -13,8 +14,9 @@ def files_delete(arguments):
     delete_file(f)
     print("Done, thank you.")
 
+
 def files_nsfw(arguments):
-    hash = arguments['<hash>']
+    hash = arguments["<hash>"]
 
     klass = RedisObject.klass(hash)
     f = File.from_hash(hash)
@@ -22,6 +24,6 @@ def files_nsfw(arguments):
     if not f:
         print("%r is not a valid file." % arguments["<hash>"])
         return
-    setattr(o.flags, 'nsfw', True)
+    setattr(o.flags, "nsfw", True)
     o.save()
     print("Done, thank you.")

@@ -5,9 +5,18 @@ from mediacrush.mimeinfo import extension
 
 import os
 
-class ProcessingException(Exception): pass
-class TimeoutException(Exception): pass
-class UnrecognisedFormatException(Exception): pass
+
+class ProcessingException(Exception):
+    pass
+
+
+class TimeoutException(Exception):
+    pass
+
+
+class UnrecognisedFormatException(Exception):
+    pass
+
 
 class Processor(object):
     outputs = []
@@ -23,7 +32,7 @@ class Processor(object):
 
         self.f = f
 
-    def _execute(self, command, ignoreNonZero = False):
+    def _execute(self, command, ignoreNonZero=False):
         ext = extension(self.f.original)
 
         tlc = Invocation(command)(self.path, self.output, extension=ext)

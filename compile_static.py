@@ -10,42 +10,39 @@ from slimit import minify
 from shutil import rmtree, copyfile
 
 app.static_folder = os.path.join(os.getcwd(), "static")
-scss.config.LOAD_PATHS = [
-    os.path.join(os.getcwd(), 'styles')
-]
+scss.config.LOAD_PATHS = [os.path.join(os.getcwd(), "styles")]
+
 
 def prepare():
     path = tempfile.mkdtemp()
 
-    compiler = scss.Scss(scss_opts = {
-        'style': 'compressed' if not app.debug else None
-    })
+    compiler = scss.Scss(scss_opts={"style": "compressed" if not app.debug else None})
 
     # Unsafe extnsion function used only here
-    extension = lambda f: f.rsplit('.', 1)[1].lower()
+    extension = lambda f: f.rsplit(".", 1)[1].lower()
 
     # Compile styles (scss)
-    d = os.walk('styles')
+    d = os.walk("styles")
     for f in list(d)[0][2]:
         if extension(f) == "scss":
             print("[scss] %s" % f)
 
-            with open(os.path.join('styles', f)) as r:
+            with open(os.path.join("styles", f)) as r:
                 output = compiler.compile(r.read())
 
-            parts = f.rsplit('.')
-            css = '.'.join(parts[:-1]) + ".css"
+            parts = f.rsplit(".")
+            css = ".".join(parts[:-1]) + ".css"
 
             with open(os.path.join(path, css), "w") as w:
                 w.write(output)
                 w.flush()
 
     # Compile scripts (coffeescript)
-    d = os.walk('scripts')
-    preprocess = ['scripts/mediacrush.js']
+    d = os.walk("scripts")
+    preprocess = ["scripts/mediacrush.js"]
     for f in list(d)[0][2]:
         outputpath = os.path.join(path, os.path.basename(f))
-        inputpath = os.path.join('scripts', f)
+        inputpath = os.path.join("scripts", f)
 
         if extension(f) == "js":
             if inputpath in preprocess:
@@ -62,28 +59,28 @@ def prepare():
 
         elif extension(f) == "manifest":
             with open(inputpath) as r:
-                manifest = r.read().decode("utf-8").split('\n')
+                manifest = r.read().decode("utf-8").split("\n")
 
-            javascript = ''
+            javascript = ""
             for script in manifest:
-                script = script.strip(' ')
+                script = script.strip(" ")
 
-                if script == '' or script.startswith('#'):
+                if script == "" or script.startswith("#"):
                     continue
 
                 bare = False
-                if script.startswith('bare: '):
+                if script.startswith("bare: "):
                     bare = True
                     script = script[6:]
 
                 print("[coffee] %s" % script)
-                with open(os.path.join('scripts', script)) as r:
+                with open(os.path.join("scripts", script)) as r:
                     coffee = r.read()
-                    if script.endswith('.js'):
-                        javascript += coffee # straight up copy
+                    if script.endswith(".js"):
+                        javascript += coffee  # straight up copy
                     else:
                         javascript += coffeescript.compile(coffee, bare=bare)
-            output = '.'.join(f.rsplit('.')[:-1]) + '.js'
+            output = ".".join(f.rsplit(".")[:-1]) + ".js"
 
             if not app.debug:
                 javascript = minify(javascript)
@@ -102,11 +99,12 @@ def prepare():
         outputpath = os.path.join(app.static_folder, f)
         copyfile(inputpath, outputpath)
 
-    d = os.walk('images')
+    d = os.walk("images")
     for f in list(d)[0][2]:
         outputpath = os.path.join(app.static_folder, os.path.basename(f))
-        inputpath = os.path.join('images', f)
+        inputpath = os.path.join("images", f)
         copyfile(inputpath, outputpath)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     prepare()

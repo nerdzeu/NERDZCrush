@@ -17,15 +17,15 @@ CLASSIFIERS = [
 import mediacrush
 
 setup(
-    name = "mediacrush",
-    packages = ["mediacrush", "mediacrush/mcmanage", "mediacrush/views"],
-    scripts = ["mcmanage.py"],
-    author = mediacrush.__author__,
-    author_email = mediacrush.__email__,
-    classifiers = CLASSIFIERS,
-    description = "A media upload and hosting service",
-    long_description = open(os.path.join(os.path.dirname(__file__), "README.md")).read(),
-    download_url = "https://github.com/MediaCrush/MediaCrush/tarball/master",
-    url = "https://github.com/MediaCrush/MediaCrush",
-    version = mediacrush.__version__,
+    name="mediacrush",
+    packages=["mediacrush", "mediacrush/mcmanage", "mediacrush/views"],
+    scripts=["mcmanage.py"],
+    author=mediacrush.__author__,
+    author_email=mediacrush.__email__,
+    classifiers=CLASSIFIERS,
+    description="A media upload and hosting service",
+    long_description=open(os.path.join(os.path.dirname(__file__), "README.md")).read(),
+    download_url="https://github.com/MediaCrush/MediaCrush/tarball/master",
+    url="https://github.com/MediaCrush/MediaCrush",
+    version=mediacrush.__version__,
 )

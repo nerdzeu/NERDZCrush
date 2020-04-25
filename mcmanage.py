@@ -24,46 +24,43 @@ from mediacrush.mcmanage.shard import init, migrate
 
 from mediacrush.email import send_report
 
+
 def show_report(args):
     print(report())
 
+
 database_commands = {
-    'clear': database_clear,
-    'sync': database_sync,
+    "clear": database_clear,
+    "sync": database_sync,
 }
 
-report_commands = {
-    'show': show_report,
-    'email': lambda args: send_report(report())
-}
+report_commands = {"show": show_report, "email": lambda args: send_report(report())}
 
-files_commands = {
-    'delete': files_delete,
-    'nsfw': files_nsfw
-}
+files_commands = {"delete": files_delete, "nsfw": files_nsfw}
 
-shard_commands = {
-    'init': init,
-    'migrate': migrate
-}
+shard_commands = {"init": init, "migrate": migrate}
 
 mapping = {
-    'database': database_commands,
-    'report': report_commands,
-    'files': files_commands,
-    'shard': shard_commands,
-    'admin': None,
+    "database": database_commands,
+    "report": report_commands,
+    "files": files_commands,
+    "shard": shard_commands,
+    "admin": None,
 }
 
-def find_true(arguments, mapping_dict):
-    return filter(lambda x: x is not None, [item if arguments[item] else None for item in mapping_dict])[0]
 
-if __name__ == '__main__':
-    arguments = docopt(__doc__, version='1.0')
+def find_true(arguments, mapping_dict):
+    return filter(
+        lambda x: x is not None,
+        [item if arguments[item] else None for item in mapping_dict],
+    )[0]
+
+
+if __name__ == "__main__":
+    arguments = docopt(__doc__, version="1.0")
     module = find_true(arguments, mapping)
     commands = mapping[module]
     command = find_true(arguments, commands)
     command = commands[command]
 
     command(arguments)
-

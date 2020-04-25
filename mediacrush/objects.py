@@ -8,6 +8,7 @@ import uuid
 
 import inspect
 
+
 class RedisObject(object):
     hash = None
 
@@ -21,7 +22,7 @@ class RedisObject(object):
 
             # If the value is a string, interpet it as UTF-8.
             if type(v) == str:
-                v = v.decode('utf-8')
+                v = v.decode("utf-8")
 
             setattr(self, k, v)
 
@@ -31,13 +32,17 @@ class RedisObject(object):
     def __get_vars(self):
         if "__store__" in dir(self):
             d = {}
-            for variable in set(self.__store__ + ['hash']): # Ensure we always store the hash
+            for variable in set(
+                self.__store__ + ["hash"]
+            ):  # Ensure we always store the hash
                 d[variable] = getattr(self, variable)
 
             return d
 
         names = filter(lambda x: not x[0].startswith("_"), inspect.getmembers(self))
-        names = filter(lambda x: not (inspect.isfunction(x[1]) or inspect.ismethod(x[1])), names)
+        names = filter(
+            lambda x: not (inspect.isfunction(x[1]) or inspect.ismethod(x[1])), names
+        )
 
         if "__exclude__" in dir(self):
             names = filter(lambda x: x[0] not in self.__exclude__, names)
@@ -79,7 +84,7 @@ class RedisObject(object):
         if not obj:
             return None
 
-        obj['hash'] = hash
+        obj["hash"] = hash
 
         return cls(**obj)
 
@@ -96,17 +101,31 @@ class RedisObject(object):
     def save(self):
         key = _k(self.hash)
         obj = self.__get_vars()
-        del obj['hash']
+        del obj["hash"]
 
-        r.hmset(self.__get_key() , obj)
-        r.sadd(_k(self.__class__.__name__.lower()), self.hash) # Add to type-set
+        r.hmset(self.__get_key(), obj)
+        r.sadd(_k(self.__class__.__name__.lower()), self.hash)  # Add to type-set
 
     def delete(self):
         r.srem(_k(self.__class__.__name__.lower()), self.hash)
         r.delete(self.__get_key())
 
+
 class File(RedisObject):
-    __store__ = ['original', 'mimetype', 'compression', 'reports', 'ip', 'taskid', 'processor', 'configvector', 'metadata', 'title', 'description', 'text_locked']
+    __store__ = [
+        "original",
+        "mimetype",
+        "compression",
+        "reports",
+        "ip",
+        "taskid",
+        "processor",
+        "configvector",
+        "metadata",
+        "title",
+        "description",
+        "text_locked",
+    ]
 
     original = None
     mimetype = None
@@ -131,29 +150,29 @@ class File(RedisObject):
 
     @property
     def status(self):
-        if self.taskid == 'done':
-            return 'done'
+        if self.taskid == "done":
+            return "done"
 
         result = app.AsyncResult(self.taskid)
 
-        if result.status == 'FAILURE':
-            if 'ProcessingException' in result.traceback:
-                return 'error'
-            if 'TimeoutException' in result.traceback:
-                return 'timeout'
-            if 'UnrecognisedFormatException' in result.traceback:
-                return 'unrecognised'
+        if result.status == "FAILURE":
+            if "ProcessingException" in result.traceback:
+                return "error"
+            if "TimeoutException" in result.traceback:
+                return "timeout"
+            if "UnrecognisedFormatException" in result.traceback:
+                return "unrecognised"
 
-            return 'internal_error'
+            return "internal_error"
 
         status = {
-            'PENDING': 'pending',
-            'STARTED': 'processing',
-            'READY': 'ready',
-            'SUCCESS': 'done',
-        }.get(result.status, 'internal_error')
+            "PENDING": "pending",
+            "STARTED": "processing",
+            "READY": "ready",
+            "SUCCESS": "done",
+        }.get(result.status, "internal_error")
 
-        if status == 'done':
+        if status == "done":
             self.taskid = status
             self.save()
 
@@ -186,6 +205,7 @@ class Feedback(RedisObject):
     text = None
     useragent = None
 
+
 class Album(RedisObject):
     _items = None
     ip = None
@@ -193,7 +213,14 @@ class Album(RedisObject):
     title = None
     description = None
     text_locked = False
-    __store__ = ['_items', 'ip', 'metadata', 'title', 'description', 'text_locked'] # ORM override for __get_vars
+    __store__ = [
+        "_items",
+        "ip",
+        "metadata",
+        "title",
+        "description",
+        "text_locked",
+    ]  # ORM override for __get_vars
 
     @property
     def items(self):
@@ -220,13 +247,15 @@ class Album(RedisObject):
 
     @items.setter
     def items(self, l):
-        self._items = ','.join(l)
+        self._items = ",".join(l)
+
 
 class FailedFile(RedisObject):
     hash = None
     status = None
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     a = RedisObject.from_hash("11fcf48f2c44")
 
     print(a.items, type(a.items), a.hash)

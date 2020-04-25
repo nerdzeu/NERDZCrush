@@ -3,12 +3,14 @@ from mediacrush.paths import domain_url, cdn_url, shard
 from mediacrush.objects import File
 from mediacrush.network import is_tor
 
+
 def _still_image(h):
     f = File.from_hash(h)
     if f.processor.startswith("image"):
         return f.original
 
     return None
+
 
 class Share(object):
     def __call__(self, method, h):
@@ -55,5 +57,6 @@ class Share(object):
 
     def bbcode_other(self, h):
         return "[url=%s]MediaCrush[/url]" % domain_url(h)
+
 
 share = Share()

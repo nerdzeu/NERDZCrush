@@ -1,4 +1,4 @@
-from flask.ext.classy import FlaskView, route
+from flask_classy import FlaskView, route
 from flask import abort, request
 import json
 from subprocess import call
@@ -25,7 +25,10 @@ class HookView(FlaskView):
         print("Hook permitted")
         # Pull and restart site
         event = json.loads(request.form["payload"])
-        if not _cfg("hook_repository") == "%s/%s" % (event["repository"]["owner"]["name"], event["repository"]["name"]):
+        if not _cfg("hook_repository") == "%s/%s" % (
+            event["repository"]["owner"]["name"],
+            event["repository"]["name"],
+        ):
             return "ignored"
         if any("[noupdate]" in c["message"] for c in event["commits"]):
             return "ignored"

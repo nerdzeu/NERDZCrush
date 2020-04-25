@@ -23,8 +23,8 @@ logger.addHandler(sh)
 logging.getLogger("scss").addHandler(sh)
 
 config = ConfigParser()
-config.readfp(open('config.ini'))
-env = 'config'
+config.readfp(open("config.ini"))
+env = "config"
 
 _cfg = lambda k: config.get(env, k)
 _cfgi = lambda k: int(_cfg(k))

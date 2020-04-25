@@ -11,7 +11,7 @@ def int2base(x, base):
     if x < 0:
         sign = -1
     elif x == 0:
-        return '0'
+        return "0"
     else:
         sign = 1
         x *= sign
@@ -21,10 +21,11 @@ def int2base(x, base):
             x /= base
 
         if sign < 0:
-          digits.append('-')
+            digits.append("-")
 
         digits.reverse()
-        return ''.join(digits)
+        return "".join(digits)
+
 
 def init(args):
     folder = _cfg("storage_folder")
@@ -35,6 +36,7 @@ def init(args):
             os.mkdir(os.path.join(folder, int2base(i, 64)))
         except OSError, e:
             print(e)
+
 
 def migrate(args):
     base = _cfg("storage_folder")

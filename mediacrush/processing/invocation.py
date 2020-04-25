@@ -1,8 +1,9 @@
+import os
+import subprocess
+import threading
+
 from mediacrush.config import _cfgi
 
-import os
-import threading
-import subprocess
 
 class Invocation(object):
     crashed = False
@@ -20,7 +21,9 @@ class Invocation(object):
 
     def _target(self):
         try:
-            self.process = subprocess.Popen(self.args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            self.process = subprocess.Popen(
+                self.args, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
             self.stdout = self.process.communicate()
         except:
             self.crashed = True

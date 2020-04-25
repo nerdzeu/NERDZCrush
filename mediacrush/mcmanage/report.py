@@ -33,18 +33,22 @@ User feedback:
 sizes = {}
 types = {}
 
+
 def report():
     files = File.get_all()
     for f in files:
         try:
-            if not 'original' in f:
+            if not "original" in f:
                 continue
             if f.original == None:
-                continue # This is something we should think about cleaning up after at some point
+                continue  # This is something we should think about cleaning up after at some point
             try:
                 with open(os.path.join(_cfg("storage_folder"), f.original)):
-                    size = os.path.getsize(os.path.join(_cfg("storage_folder"), f.original))
-            except IOError: pass
+                    size = os.path.getsize(
+                        os.path.join(_cfg("storage_folder"), f.original)
+                    )
+            except IOError:
+                pass
             processor = get_processor(f._processor)
             for f_ext in processor.outputs:
                 name = "%s.%s" % (f.hash, f_ext)
@@ -52,13 +56,23 @@ def report():
                     continue
                 try:
                     with open(os.path.join(_cfg("storage_folder"), name)):
-                        size += os.path.getsize(os.path.join(_cfg("storage_folder"), name))
-                except IOError: pass
+                        size += os.path.getsize(
+                            os.path.join(_cfg("storage_folder"), name)
+                        )
+                except IOError:
+                    pass
             for f_ext in processor.extras:
                 try:
-                    with open(os.path.join(_cfg("storage_folder"), "%s.%s" % (f.hash, f_ext))):
-                        size += os.path.getsize(os.path.join(_cfg("storage_folder"), "%s.%s" % (f.hash, f_ext)))
-                except IOError: pass
+                    with open(
+                        os.path.join(_cfg("storage_folder"), "%s.%s" % (f.hash, f_ext))
+                    ):
+                        size += os.path.getsize(
+                            os.path.join(
+                                _cfg("storage_folder"), "%s.%s" % (f.hash, f_ext)
+                            )
+                        )
+                except IOError:
+                    pass
             size /= float(1 << 20)
             size = round(size, 2)
 
@@ -78,7 +92,9 @@ def report():
     for t in types:
         fileinfo += "    -%d %s blobs (%0.2f MB)\n" % (types[t], t, sizes[t])
 
-    diskinfo = ''.join(["    %s\n" % s for s in subprocess.check_output(["df", "-kh"]).split("\n")])
+    diskinfo = "".join(
+        ["    %s\n" % s for s in subprocess.check_output(["df", "-kh"]).split("\n")]
+    )
 
     reports = r.smembers(_k("reports-triggered"))
     r.delete(_k("reports-triggered"))
@@ -87,7 +103,10 @@ def report():
     for report in reports:
         try:
             f = File.from_hash(report)
-            reportinfo += "    https://mediacru.sh/%s (%s reports)\n" % (report, f.reports)
+            reportinfo += "    https://mediacru.sh/%s (%s reports)\n" % (
+                report,
+                f.reports,
+            )
         except:
             pass
 
@@ -114,8 +133,7 @@ def report():
         diskinfo,
         reportinfo,
         user_feedback,
-        random.choice(compliments)
+        random.choice(compliments),
     )
-
 
     return report
