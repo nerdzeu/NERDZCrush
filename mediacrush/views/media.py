@@ -152,10 +152,7 @@ class MediaView(FlaskView):
             abort(403)
 
         if "." in id:
-            print("cane ", _cfg("storage_folder"))
-            print("base: ", base)
             path = os.path.join(base, id)
-            print(path)
             if os.path.exists(path):
                 return send_file(
                     path, as_attachment=as_attachment, mimetype=get_mimetype(path)
@@ -182,14 +179,12 @@ class MediaView(FlaskView):
     # Otherwise we will not go to space today.
     @route("/<path:p>.<ext>")
     def static_file(self, p, ext):
-        print("CAZZO MERDA", p, ext)
         f = p + "." + ext
 
         if p.startswith("static/"):
             return self._send_file(f.split("/")[1], base=current_app.static_folder)
         elif p.startswith("download/"):
             f = "{}.{}".format(p.split(os.path.sep)[-1], ext)
-            print("f: ", f)
             return self._send_file(
                 f,
                 as_attachment=True,

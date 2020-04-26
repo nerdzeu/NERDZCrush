@@ -73,7 +73,6 @@ class RedisObject:
 
     @classmethod
     def from_hash(cls, hash):
-        print("diocane", cls, hash)
         if cls == RedisObject:
             cls = RedisObject.klass(hash)
 
@@ -85,9 +84,6 @@ class RedisObject:
             return None
 
         obj["hash"] = hash
-
-        for vat in obj.items():
-            print(vat)
 
         return cls(**obj)
 

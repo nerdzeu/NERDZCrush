@@ -50,17 +50,10 @@ def detect_ffprobe(path):
     )
     a(path)
     a.run()
-    print("diocane allora: ", a.returncode, " exited: ", a.exited)
+
     if a.returncode or a.exited:
-        print("ritorno NONE")
         return None
-    print("LOAD DEL JSON")
-    try:
-        result = json.loads(a.stdout)
-    except Exception as e:
-        print("mannaggioa a dio", e)
-    print("result: ", result)
-    print("diocane?^????")
+    result = json.loads(a.stdout)
 
     audio_streams = 0
     video_streams = 0

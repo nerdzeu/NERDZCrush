@@ -13,7 +13,6 @@ class Invocation:
     args = []
 
     def __init__(self, command):
-        print("COMANDO: ", command)
         self.command = command
 
     def __call__(self, *args, **kw):
@@ -22,7 +21,6 @@ class Invocation:
 
     def _target(self):
         try:
-            print("SEFL.ARGS ", self.args)
             self.process = subprocess.Popen(
                 self.args, stdout=subprocess.PIPE, stderr=subprocess.PIPE
             )
@@ -45,6 +43,4 @@ class Invocation:
             thread.join()
             self.exited = True
         self.stdout = self.stdout.decode("utf-8")
-        print("stdout del cazzo ", self.stdout)
         self.returncode = self.process.returncode
-        print("return code: ", self.returncode)

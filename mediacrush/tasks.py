@@ -62,7 +62,6 @@ def cleanup(results, path, h):
     os.unlink(path)
 
     if f.status in ["internal_error", "error", "timeout", "unrecognised"]:
-        print("porco dio: ", f.status)
         failed = FailedFile(hash=h, status=f.status)  # Create a "failed file" record
         failed.save()
 
@@ -79,15 +78,12 @@ def process_file(path, h, ignore_limit):
         time.sleep(0.05)  # Wait for Redis to catch up
 
     try:
-        print("PATH:", path)
         result = detect(path)
-        print("RESULT: ", result)
         processor = result["type"] if result else "default"
     except:
         processor = "default"
     finally:
         if processor == "default":  # Unrecognised file type
-            print("unreconized file file????")
             failed = FailedFile(hash=h, status="unrecognised")
             failed.save()
 
