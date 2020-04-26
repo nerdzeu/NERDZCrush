@@ -1,12 +1,13 @@
 #!/usr/bin/env python
+import os
+import tempfile
+from shutil import copyfile, rmtree
+
+import coffeescript
+import scss
+
 from mediacrush.app import app
 from mediacrush.config import _cfg, _cfgi
-
-import os
-import scss
-import coffeescript
-import tempfile
-from shutil import rmtree, copyfile
 
 app.static_folder = os.path.join(os.getcwd(), "static")
 scss.config.LOAD_PATHS = [os.path.join(os.getcwd(), "styles")]
