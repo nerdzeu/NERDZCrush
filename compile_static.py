@@ -6,7 +6,6 @@ import os
 import scss
 import coffeescript
 import tempfile
-from slimit import minify
 from shutil import rmtree, copyfile
 
 app.static_folder = os.path.join(os.getcwd(), "static")
@@ -25,7 +24,7 @@ def prepare():
     d = os.walk("styles")
     for f in list(d)[0][2]:
         if extension(f) == "scss":
-            print("[scss] %s" % f)
+            print(("[scss] %s" % f))
 
             with open(os.path.join("styles", f)) as r:
                 output = compiler.compile(r.read())
@@ -47,19 +46,19 @@ def prepare():
         if extension(f) == "js":
             if inputpath in preprocess:
                 with open(inputpath) as r:
-                    output = r.read().decode("utf-8")
+                    output = r.read()
                     output = output.replace("{{ protocol }}", _cfg("protocol"))
                     output = output.replace("{{ domain }}", _cfg("domain"))
 
                 with open(outputpath, "w") as w:
-                    w.write(output.encode("utf-8"))
+                    w.write(output)
                     w.flush()
             else:
                 copyfile(inputpath, outputpath)
 
         elif extension(f) == "manifest":
             with open(inputpath) as r:
-                manifest = r.read().decode("utf-8").split("\n")
+                manifest = r.read().split("\n")
 
             javascript = ""
             for script in manifest:
@@ -73,7 +72,7 @@ def prepare():
                     bare = True
                     script = script[6:]
 
-                print("[coffee] %s" % script)
+                print(("[coffee] %s" % script))
                 with open(os.path.join("scripts", script)) as r:
                     coffee = r.read()
                     if script.endswith(".js"):
@@ -82,11 +81,8 @@ def prepare():
                         javascript += coffeescript.compile(coffee, bare=bare)
             output = ".".join(f.rsplit(".")[:-1]) + ".js"
 
-            if not app.debug:
-                javascript = minify(javascript)
-
             with open(os.path.join(path, output), "w") as w:
-                w.write(javascript.encode("utf-8"))
+                w.write(javascript)
                 w.flush()
 
     if os.path.exists(app.static_folder):
