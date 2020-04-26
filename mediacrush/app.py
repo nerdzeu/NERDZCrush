@@ -1,25 +1,25 @@
-from flask import Flask, render_template, request, g, Response, redirect
-from flaskext.bcrypt import Bcrypt
-from flaskext.markdown import Markdown
-
-
-from werkzeug.routing import BaseConverter, ValidationError
-from jinja2 import FileSystemLoader, ChoiceLoader
 import os
-import traceback
-import subprocess
 import random
+import subprocess
+import traceback
 
-from mediacrush.views import HookView, APIView, MediaView, DocsView
+from flask import Flask, Response, g, redirect, render_template, request
+from flask_bcrypt import Bcrypt
+from flaskext.markdown import Markdown
+from jinja2 import ChoiceLoader, FileSystemLoader
+from werkzeug.routing import BaseConverter, ValidationError
+
 from mediacrush.config import _cfg, _cfgi
-from mediacrush.paths import cdn_url, shard
-from mediacrush.files import extension, get_mimetype, media_url, get_maxsize
-from mediacrush.views.media import render_media
-from mediacrush.share import share
-from mediacrush.network import is_tor, get_ip
+from mediacrush.files import extension, get_maxsize, get_mimetype, media_url
 from mediacrush.mcmanage.compliments import compliments
+from mediacrush.network import get_ip, is_tor
+from mediacrush.paths import cdn_url, shard
+from mediacrush.share import share
+from mediacrush.views import APIView, DocsView, HookView, MediaView
+from mediacrush.views.media import render_media
 
 app = Flask(__name__)
+app.config["DEBUG"] = True
 app.jinja_env.cache = None
 bcrypt = Bcrypt(app)
 Markdown(app)
@@ -132,11 +132,6 @@ def mine():
     return render_template("mine.html")
 
 
-@app.route("/apps")
-def apps():
-    return render_template("apps.html")
-
-
 @app.route("/about")
 def about():
     return render_template("about.html", choice=random.randint(0, 4))
@@ -145,17 +140,6 @@ def about():
 @app.route("/demo")
 def demo():
     return redirect("/about", code=301)
-
-
-@app.route("/advertising")
-def advertising():
-    return render_template("advertising.html")
-
-
-@app.route("/donate")
-def donate():
-    opted_out = "ad-opt-out" in request.cookies
-    return render_template("donate.html", ads=not opted_out)
 
 
 @app.route("/thanks")

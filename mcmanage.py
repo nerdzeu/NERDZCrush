@@ -10,23 +10,21 @@ Usage:
     mcmanage.py report show
     mcmanage.py report email
     mcmanage.py files delete <hash>
-    mcmanage.py files nsfw <hash>
     mcmanage.py shard init
     mcmanage.py shard migrate
 """
 
 from docopt import docopt
 
-from mediacrush.mcmanage.database import database_clear, database_sync
-from mediacrush.mcmanage.report import report
-from mediacrush.mcmanage.files import files_delete, files_nsfw
-from mediacrush.mcmanage.shard import init, migrate
-
 from mediacrush.email import send_report
+from mediacrush.mcmanage.database import database_clear, database_sync
+from mediacrush.mcmanage.files import files_delete
+from mediacrush.mcmanage.report import report
+from mediacrush.mcmanage.shard import init, migrate
 
 
 def show_report(args):
-    print(report())
+    print((report()))
 
 
 database_commands = {
@@ -36,7 +34,7 @@ database_commands = {
 
 report_commands = {"show": show_report, "email": lambda args: send_report(report())}
 
-files_commands = {"delete": files_delete, "nsfw": files_nsfw}
+files_commands = {"delete": files_delete}
 
 shard_commands = {"init": init, "migrate": migrate}
 
@@ -50,9 +48,11 @@ mapping = {
 
 
 def find_true(arguments, mapping_dict):
-    return filter(
-        lambda x: x is not None,
-        [item if arguments[item] else None for item in mapping_dict],
+    return list(
+        filter(
+            lambda x: x is not None,
+            [item if arguments[item] else None for item in mapping_dict],
+        )
     )[0]
 
 

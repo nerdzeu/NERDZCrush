@@ -9,25 +9,21 @@ import uuid
 import inspect
 
 
-class RedisObject(object):
+class RedisObject:
     hash = None
 
     def __init__(self, **kw):
-        for k, v in kw.items():
+        for k, v in list(kw.items()):
             if v == "True" or v == "False":
                 v = v == "True"
 
             if v == "None":
                 v = None
 
-            # If the value is a string, interpet it as UTF-8.
-            if type(v) == str:
-                v = v.decode("utf-8")
-
             setattr(self, k, v)
 
         if "hash" not in kw:
-            self.hash = hashlib.md5(uuid.uuid4().bytes).hexdigest()[:12]
+            self.hash = str(hashlib.md5(uuid.uuid4().bytes).hexdigest()[:12])
 
     def __get_vars(self):
         if "__store__" in dir(self):
@@ -36,16 +32,19 @@ class RedisObject(object):
                 self.__store__ + ["hash"]
             ):  # Ensure we always store the hash
                 d[variable] = getattr(self, variable)
-
+                if d[variable] is None:
+                    d[variable] = ""
+                elif isinstance(d[variable], bool):
+                    d[variable] = 1 if d[variable] else 0
             return d
 
-        names = filter(lambda x: not x[0].startswith("_"), inspect.getmembers(self))
-        names = filter(
-            lambda x: not (inspect.isfunction(x[1]) or inspect.ismethod(x[1])), names
-        )
+        names = [x for x in inspect.getmembers(self) if not x[0].startswith("_")]
+        names = [
+            x for x in names if not (inspect.isfunction(x[1]) or inspect.ismethod(x[1]))
+        ]
 
         if "__exclude__" in dir(self):
-            names = filter(lambda x: x[0] not in self.__exclude__, names)
+            names = [x for x in names if x[0] not in self.__exclude__]
 
         return dict(names)
 
@@ -70,10 +69,11 @@ class RedisObject(object):
     @classmethod
     def get_key(cls, hash):
         classname = cls.__name__
-        return _k("%s.%s" % (classname.lower(), hash))
+        return _k("{}.{}".format(classname.lower(), hash))
 
     @classmethod
     def from_hash(cls, hash):
+        print("diocane", cls, hash)
         if cls == RedisObject:
             cls = RedisObject.klass(hash)
 
@@ -85,6 +85,9 @@ class RedisObject(object):
             return None
 
         obj["hash"] = hash
+
+        for vat in obj.items():
+            print(vat)
 
         return cls(**obj)
 
@@ -120,7 +123,6 @@ class File(RedisObject):
         "ip",
         "taskid",
         "processor",
-        "configvector",
         "metadata",
         "title",
         "description",
@@ -179,16 +181,6 @@ class File(RedisObject):
         return status
 
     @property
-    def configvector(self):
-        if not self.flags:
-            return 0
-        return self.flags._vec
-
-    @configvector.setter
-    def configvector(self, val):
-        self._configvector = int(val)
-
-    @property
     def processor(self):
         return self._processor
 
@@ -198,7 +190,7 @@ class File(RedisObject):
 
         # When the processor is changed, so is the interpretation of the flags.
         options = flags_per_processor.get(normalise_processor(v), [])
-        self.flags = BitVector(options, iv=self._configvector)
+        self.flags = BitVector(options)
 
 
 class Feedback(RedisObject):
@@ -258,4 +250,4 @@ class FailedFile(RedisObject):
 if __name__ == "__main__":
     a = RedisObject.from_hash("11fcf48f2c44")
 
-    print(a.items, type(a.items), a.hash)
+    print((a.items, type(a.items), a.hash))

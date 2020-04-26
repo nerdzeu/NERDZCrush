@@ -18,7 +18,7 @@ class UnrecognisedFormatException(Exception):
     pass
 
 
-class Processor(object):
+class Processor:
     outputs = []
     extras = []
 
@@ -34,6 +34,8 @@ class Processor(object):
 
     def _execute(self, command, ignoreNonZero=False):
         ext = extension(self.f.original)
+        if not ext:
+            raise ProcessingException
 
         tlc = Invocation(command)(self.path, self.output, extension=ext)
         tlc.run(self.time if not self.ignore_limit else None)
@@ -47,5 +49,5 @@ class Processor(object):
     def sync(self):
         pass
 
-    def async(self):
+    def asynchronous(self):
         pass

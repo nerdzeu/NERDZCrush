@@ -24,7 +24,7 @@ class VideoProcessor(Processor):
         if self.processor_state["has_audio"]:
             map_string += " -map 0:a:0"
         if "interlaced" in self.processor_state:
-            print("WARNING: Detected interlacing on " + self.output)
+            print(("WARNING: Detected interlacing on " + self.output))
             filter_string = "yadif," + filter_string
         self._execute(
             "ffmpeg -y -i {0} -vcodec libx264 -acodec libfdk_aac -movflags faststart -pix_fmt yuv420p -profile:v baseline -level 3.0 -preset slower -crf 18 -vf "
@@ -148,7 +148,7 @@ class VideoProcessor(Processor):
                 css_file.write(css)
                 css_file.close()
 
-    def async(self):
+    def asynchronous(self):
         map_string = ""
         if self.processor_state["has_video"]:
             map_string += " -map 0:v:0"
@@ -169,7 +169,7 @@ class AudioProcessor(Processor):
         self._execute(copy)
         self._execute("ffmpeg -y -i {0} -acodec libmp3lame -q:a 2 -map 0:a:0 {1}.mp3")
 
-    def async(self):
+    def asynchronous(self):
         self._execute("ffmpeg -y -i {0} -acodec libvorbis -q:a 5 -map 0:a:0 {1}.ogg")
 
 
@@ -181,7 +181,7 @@ class ImageProcessor(Processor):
         self._execute(copy)
         self._execute("convert {0} {1}.png")
 
-    def async(self):
+    def asynchronous(self):
         self._execute("optipng -o1 {1}.png")
 
 
@@ -196,7 +196,7 @@ class PNGProcessor(Processor):
     def sync(self):
         self._execute(copy)
 
-    def async(self):
+    def asynchronous(self):
         self._execute("optipng -o1 {1}.png")
 
 
@@ -216,7 +216,7 @@ class SVGProcessor(Processor):
     def sync(self):
         self._execute(copy)
 
-    def async(self):
+    def asynchronous(self):
         self._execute(
             "tidy -asxml -xml --hide-comments 1 --wrap 0 --quiet --write-back 1 {0}"
         )
@@ -230,7 +230,7 @@ class XCFProcessor(Processor):
         self._execute(copy)
         self._execute("xcf2png {0} -o {1}.png")
 
-    def async(self):
+    def asynchronous(self):
         self._execute("optipng -o1 {1}.png")
 
 

@@ -1,15 +1,14 @@
-from mediacrush.config import _cfgi
-from mediacrush.paths import file_storage
-from mediacrush.objects import RedisObject, File, FailedFile, Album
-from mediacrush.celery import app, get_task_logger, chord, signature
-from mediacrush.processing import processor_table, detect
-from mediacrush.fileutils import compression_rate, delete_file
-
-import time
-import os
 import json
-
+import os
+import time
 from subprocess import call
+
+from mediacrush.celery import app, chord, get_task_logger, signature
+from mediacrush.config import _cfgi
+from mediacrush.fileutils import compression_rate, delete_file
+from mediacrush.objects import Album, FailedFile, File, RedisObject
+from mediacrush.paths import file_storage
+from mediacrush.processing import detect, processor_table
 
 logger = get_task_logger(__name__)
 
@@ -17,7 +16,7 @@ logger = get_task_logger(__name__)
 @app.task
 def zip_album(h):
     a = Album.from_hash(h)
-    paths = map(lambda f: file_storage(f.original), a.items)
+    paths = [file_storage(f.original) for f in a.items]
     zip_path = file_storage(h + ".zip")
 
     if os.path.exists(zip_path):
@@ -52,9 +51,9 @@ def convert_file(self, h, path, p, metadata, processor_state, ignore_limit):
     # Notify frontend: sync step is done.
     self.update_state(state="READY")
 
-    # Execute the asynchronous step.
+    # Execute the asynchronoushronous step.
     processor.important = False
-    processor.async()
+    processor.asynchronous()
 
 
 @app.task
@@ -63,6 +62,7 @@ def cleanup(results, path, h):
     os.unlink(path)
 
     if f.status in ["internal_error", "error", "timeout", "unrecognised"]:
+        print("porco dio: ", f.status)
         failed = FailedFile(hash=h, status=f.status)  # Create a "failed file" record
         failed.save()
 
@@ -79,12 +79,15 @@ def process_file(path, h, ignore_limit):
         time.sleep(0.05)  # Wait for Redis to catch up
 
     try:
+        print("PATH:", path)
         result = detect(path)
+        print("RESULT: ", result)
         processor = result["type"] if result else "default"
     except:
         processor = "default"
     finally:
         if processor == "default":  # Unrecognised file type
+            print("unreconized file file????")
             failed = FailedFile(hash=h, status="unrecognised")
             failed.save()
 
@@ -97,9 +100,8 @@ def process_file(path, h, ignore_limit):
     f.processor = processor
     queue = "priority" if processor.startswith("image") else "celery"
 
-    setattr(f.flags, "nsfw", False)
     if result and result["flags"]:
-        for flag, value in result["flags"].items():
+        for flag, value in list(result["flags"].items()):
             setattr(f.flags, flag, value)
 
     f.save()
@@ -110,7 +112,7 @@ def process_file(path, h, ignore_limit):
     )
     task_result = task.freeze()  # This sets the taskid, so we can pass it to the UI
 
-    # This chord will execute `syncstep` and `asyncstep`, and `cleanup` after both of them have finished.
+    # This chord will execute `syncstep` and `asynchronousstep`, and `cleanup` after both of them have finished.
     c = chord(task, cleanup.s(path, h))
     c.apply_async()
 

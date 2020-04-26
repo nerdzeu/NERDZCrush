@@ -12,7 +12,7 @@ def _still_image(h):
     return None
 
 
-class Share(object):
+class Share:
     def __call__(self, method, h):
         original = _still_image(h)
         if original:

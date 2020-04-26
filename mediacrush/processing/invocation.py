@@ -5,7 +5,7 @@ import threading
 from mediacrush.config import _cfgi
 
 
-class Invocation(object):
+class Invocation:
     crashed = False
     exited = False
     stdout = None
@@ -13,6 +13,7 @@ class Invocation(object):
     args = []
 
     def __init__(self, command):
+        print("COMANDO: ", command)
         self.command = command
 
     def __call__(self, *args, **kw):
@@ -21,10 +22,11 @@ class Invocation(object):
 
     def _target(self):
         try:
+            print("SEFL.ARGS ", self.args)
             self.process = subprocess.Popen(
                 self.args, stdout=subprocess.PIPE, stderr=subprocess.PIPE
             )
-            self.stdout = self.process.communicate()
+            self.stdout, _ = self.process.communicate()
         except:
             self.crashed = True
             return
@@ -42,5 +44,7 @@ class Invocation(object):
             self.process.terminate()
             thread.join()
             self.exited = True
-
+        self.stdout = self.stdout.decode("utf-8")
+        print("stdout del cazzo ", self.stdout)
         self.returncode = self.process.returncode
+        print("return code: ", self.returncode)

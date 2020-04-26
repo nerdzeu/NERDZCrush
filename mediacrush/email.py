@@ -22,7 +22,7 @@ def _email_admins(subject, content):
         "to": to,
     }
 
-    return email.messages.send(message=message, async=True)
+    return email.messages.send(message=message, asynchronous=True)
 
 
 def send_report(text):
@@ -30,4 +30,4 @@ def send_report(text):
 
 
 if __name__ == "__main__":
-    print(report("bruasdf"))
+    print((report("bruasdf")))

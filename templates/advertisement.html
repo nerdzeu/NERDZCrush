@@ -1,6 +1,5 @@
 {% if ads %}
 {% if not is_tor %}
-{% if not (flags and flags['nsfw']) %}
 <div class="advertisement center">
 <!-- Project Wonderful Ad Box Code -->
 <div id="pw_adbox_{{ ad_id }}_5_0"></div>
@@ -17,6 +16,5 @@ Ads by <a href="https://www.projectwonderful.com/advertisehere.php?id={{ ad_id }
 <a href="/advertising">More information</a>
 </p>
 </div>
-{% endif %}
 {% endif %}
 {% endif %}

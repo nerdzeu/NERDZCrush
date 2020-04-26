@@ -7,7 +7,7 @@ import requests
 import re
 
 from flask import current_app
-from urlparse import urlparse
+from urllib.parse import urlparse
 
 from mediacrush.config import _cfg
 from mediacrush.paths import file_storage, shard
@@ -16,7 +16,7 @@ from mediacrush.objects import File
 from mediacrush.ratelimit import rate_limit_exceeded, rate_limit_update
 from mediacrush.network import secure_ip, get_ip
 from mediacrush.tasks import process_file
-from mediacrush.fileutils import EXTENSIONS, get_mimetype, extension, delete_file
+from mediacrush.fileutils import get_mimetype, extension, delete_file
 from mediacrush.celery import app
 
 
@@ -24,7 +24,7 @@ class FileTooBig(Exception):
     pass
 
 
-class URLFile(object):
+class URLFile:
     filename = None
     content_type = None
     override_methods = ["save"]
@@ -137,12 +137,9 @@ def upload(f, filename):
 
     h = get_hash(f)
     identifier = to_id(h)
-    if "." not in filename:
-        ext = mimetypes.guess_extension(f.content_type)[
-            1:
-        ]  # This not very scientific, but it works
-    else:
-        ext = extension(filename)
+    ext = extension(filename)
+    if not ext:
+        return None, 420
 
     filename = "%s.%s" % (identifier, ext)
     path = tempfile.NamedTemporaryFile(
@@ -175,4 +172,8 @@ def upload(f, filename):
     return identifier, 200
 
 
-to_id = lambda h: base64.b64encode(h)[:12].replace("/", "_").replace("+", "-")
+def to_id(h):
+    encode = base64.b64encode(h).decode("utf-8")
+    cap = encode[:12]
+    normalize = cap.replace("/", "_").replace("+", "-")
+    return normalize

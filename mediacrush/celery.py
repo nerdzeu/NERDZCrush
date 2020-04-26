@@ -1,9 +1,8 @@
-from __future__ import absolute_import
-
 from mediacrush.config import _cfg
 
-from celery import Celery, chord, signature
+from celery.app import Celery
 from celery.utils.log import get_task_logger
+from celery import chord, signature
 
 redis_connection = "redis://%s:%s/1" % (_cfg("redis-ip"), _cfg("redis-port"))
 

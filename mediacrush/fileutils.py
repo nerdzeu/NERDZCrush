@@ -1,12 +1,12 @@
-from mediacrush.config import _cfg, _cfgi
-from mediacrush.paths import file_storage
-from mediacrush.mimeinfo import EXTENSIONS, get_mimetype, extension
-from mediacrush.processing import get_processor
-
 import os
 
+from mediacrush.config import _cfg, _cfgi
+from mediacrush.mimeinfo import extension, get_mimetype
+from mediacrush.paths import file_storage
+from mediacrush.processing import get_processor
 
-class BitVector(object):
+
+class BitVector:
     shifts = {}
     _vec = 0
 
@@ -57,13 +57,13 @@ class BitVector(object):
 
 # Note: if you want to add a flag, you must append it to the end of the list
 flags_per_processor = {
-    "video": ["autoplay", "loop", "mute", "nsfw"],
-    "image": ["nsfw"],
-    "image/png": ["nsfw"],
-    "image/jpeg": ["nsfw"],
-    "image/svg+xml": ["nsfw"],
-    "image/x-gimp-xcf": ["nsfw"],
-    "audio": ["nsfw"],
+    "video": ["autoplay", "loop", "mute"],
+    "image": [],
+    "image/png": [],
+    "image/jpeg": [],
+    "image/svg+xml": [],
+    "image/x-gimp-xcf": [],
+    "audio": [],
 }
 
 
@@ -83,7 +83,7 @@ def compression_rate(originalpath, f):
     for ext in processor.outputs:
         try:
             convsize = os.path.getsize(file_storage("%s.%s" % (f.hash, ext)))
-            print("%s: %s (%s)" % (ext, convsize, original_size))
+            print(("%s: %s (%s)" % (ext, convsize, original_size)))
             minsize = min(minsize, convsize)
         except OSError:
             continue  # One of the target files wasn't processed.

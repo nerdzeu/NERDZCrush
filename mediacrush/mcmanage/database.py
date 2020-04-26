@@ -5,7 +5,7 @@ from ..objects import File, RedisObject
 def database_clear(arguments):
     keys = r.keys(_k("*"))
     if not arguments.get("silent", False):
-        print("Deleting %i keys" % (len(keys)))
+        print(("Deleting %i keys" % (len(keys))))
 
     if keys:
         r.delete(*keys)

@@ -3,7 +3,7 @@ import os
 
 from flask import current_app, redirect, request
 from flask_classy import FlaskView, route
-from flaskext.bcrypt import check_password_hash
+from flask_bcrypt import check_password_hash
 from mediacrush.config import _cfg
 from mediacrush.database import _k, r
 from mediacrush.decorators import cors, json_output
@@ -345,7 +345,7 @@ class APIView(FlaskView):
             return {"error": 401}, 401
 
         # At this point, we're authenticated and o is the object.
-        for flag, value in request.form.items():
+        for flag, value in list(request.form.items()):
             v = True if value == "true" else False
 
             try:

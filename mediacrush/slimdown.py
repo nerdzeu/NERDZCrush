@@ -1,6 +1,6 @@
 from functools import partial
 
-from markdown import Markdown, odict
+from markdown import Markdown
 from markdown.blockprocessors import build_block_parser
 from markdown.preprocessors import build_preprocessors
 from markdown.inlinepatterns import build_inlinepatterns

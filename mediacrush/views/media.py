@@ -14,7 +14,7 @@ from flask import (
     send_file,
 )
 from flask_classy import FlaskView, route
-from flaskext.bcrypt import check_password_hash
+from flask_bcrypt import check_password_hash
 from mediacrush.config import _cfg
 from mediacrush.database import _k, r
 from mediacrush.files import delete_file, extension, get_mimetype
@@ -152,7 +152,10 @@ class MediaView(FlaskView):
             abort(403)
 
         if "." in id:
+            print("cane ", _cfg("storage_folder"))
+            print("base: ", base)
             path = os.path.join(base, id)
+            print(path)
             if os.path.exists(path):
                 return send_file(
                     path, as_attachment=as_attachment, mimetype=get_mimetype(path)
@@ -177,17 +180,30 @@ class MediaView(FlaskView):
 
     # We have to force the most vexing parse on this route.
     # Otherwise we will not go to space today.
-    @route("/<path:p>.<except(json):ext>")
+    @route("/<path:p>.<ext>")
     def static_file(self, p, ext):
+        print("CAZZO MERDA", p, ext)
         f = p + "." + ext
 
         if p.startswith("static/"):
             return self._send_file(f.split("/")[1], base=current_app.static_folder)
         elif p.startswith("download/"):
-            path = "/".join(f.split("/")[1:])
-            return self._send_file(path, as_attachment=True)
+            f = "{}.{}".format(p.split(os.path.sep)[-1], ext)
+            print("f: ", f)
+            return self._send_file(
+                f,
+                as_attachment=True,
+                base=os.path.join(
+                    current_app.root_path, os.pardir, _cfg("storage_folder")
+                ),
+            )
         else:
-            return self._send_file(f)
+            return self._send_file(
+                f,
+                base=os.path.join(
+                    current_app.root_path, os.pardir, _cfg("storage_folder")
+                ),
+            )
 
     @route("/<id>", defaults={"layout": "list"})
     @route("/<id>/<layout>")

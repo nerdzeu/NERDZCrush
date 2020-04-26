@@ -50,9 +50,17 @@ def detect_ffprobe(path):
     )
     a(path)
     a.run()
+    print("diocane allora: ", a.returncode, " exited: ", a.exited)
     if a.returncode or a.exited:
+        print("ritorno NONE")
         return None
-    result = json.loads(a.stdout[0])
+    print("LOAD DEL JSON")
+    try:
+        result = json.loads(a.stdout)
+    except Exception as e:
+        print("mannaggioa a dio", e)
+    print("result: ", result)
+    print("diocane?^????")
 
     audio_streams = 0
     video_streams = 0
@@ -138,7 +146,7 @@ def detect_interlacing(path):
     a.run()
     if a.returncode or a.exited:
         return False
-    result = a.stdout[1].split("\n")
+    result = a.stdout.split("\n")
     for line in result:
         if line.startswith("[Parsed_idet_"):
             match = re.search(
@@ -318,7 +326,7 @@ def detect_imagemagick(path):
     a(path)
     a.run()
     try:
-        result = a.stdout[0].split("\n")
+        result = a.stdout.split("\n")
         # Get mime type and dimensions
         mimetype = None
         metadata = None
@@ -368,7 +376,7 @@ def detect_plaintext(path):
     a.run()
     if a.returncode or a.exited:
         return None
-    result = a.stdout[0]
+    result = a.stdout
     if result.startswith("text/x-") or result == "text/plain":
         return {
             "type": result[: result.find(";")],
