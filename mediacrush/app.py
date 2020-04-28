@@ -5,6 +5,7 @@ import traceback
 
 from flask import Flask, Response, g, redirect, render_template, request
 from flask_bcrypt import Bcrypt
+from flask_cors import CORS
 from flaskext.markdown import Markdown
 from jinja2 import ChoiceLoader, FileSystemLoader
 from werkzeug.routing import BaseConverter, ValidationError
@@ -19,6 +20,8 @@ from mediacrush.views import APIView, DocsView, HookView, MediaView
 from mediacrush.views.media import render_media
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 app.config["DEBUG"] = True
 app.jinja_env.cache = None
 bcrypt = Bcrypt(app)
