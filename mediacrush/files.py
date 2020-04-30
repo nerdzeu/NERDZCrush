@@ -1,23 +1,23 @@
-import mimetypes
 import base64
 import hashlib
+import mimetypes
 import os
-import tempfile
-import requests
 import re
-
-from flask import current_app
+import tempfile
 from urllib.parse import urlparse
 
-from mediacrush.config import _cfg
-from mediacrush.paths import file_storage, shard
-from mediacrush.database import r, _k
-from mediacrush.objects import File
-from mediacrush.ratelimit import rate_limit_exceeded, rate_limit_update
-from mediacrush.network import secure_ip, get_ip
-from mediacrush.tasks import process_file
-from mediacrush.fileutils import get_mimetype, extension, delete_file
+import requests
+from flask import current_app
+
 from mediacrush.celery import app
+from mediacrush.config import _cfg
+from mediacrush.database import _k, r
+from mediacrush.fileutils import delete_file, extension, get_mimetype
+from mediacrush.network import get_ip, secure_ip
+from mediacrush.objects import File
+from mediacrush.paths import file_storage, shard
+from mediacrush.ratelimit import rate_limit_exceeded, rate_limit_update
+from mediacrush.tasks import process_file
 
 
 class FileTooBig(Exception):

@@ -2,11 +2,12 @@ import json
 import os
 
 from flask import current_app, redirect, request
-from flask_classy import FlaskView, route
 from flask_bcrypt import check_password_hash
+from flask_classy import FlaskView, route
+
 from mediacrush.config import _cfg
 from mediacrush.database import _k, r
-from mediacrush.decorators import cors, json_output
+from mediacrush.decorators import json_output
 from mediacrush.files import (
     FileTooBig,
     URLFile,
@@ -117,7 +118,7 @@ def _upload_object(result, status):
 
 
 class APIView(FlaskView):
-    decorators = [json_output, cors]
+    decorators = [json_output]
     route_base = "/"
 
     @route("/api/album/create", methods=["POST"])
