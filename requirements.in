@@ -20,6 +20,6 @@ py-bcrypt
 pyScss
 pytz
 redis
-request
+requests
 netaddr
 flask-cors

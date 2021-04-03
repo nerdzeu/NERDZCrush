@@ -21,7 +21,6 @@ flask-classy==0.6.10      # via -r requirements.in
 flask-cors==3.0.8         # via -r requirements.in
 flask-markdown==0.3       # via -r requirements.in
 flask==1.1.2              # via -r requirements.in, flask-bcrypt, flask-classy, flask-cors
-get==2019.4.13            # via request
 gunicorn==20.0.4          # via -r requirements.in
 idna==2.9                 # via requests
 importlib-metadata==1.6.0  # via kombu
@@ -34,7 +33,6 @@ markupsafe==1.1.1         # via jinja2
 netaddr==0.7.19           # via -r requirements.in
 pep8==1.7.1               # via -r requirements.in
 ply==3.11                 # via -r requirements.in
-post==2019.4.13           # via request
 public==2019.4.13         # via query-string
 py-bcrypt==0.4            # via -r requirements.in
 pycodestyle==2.5.0        # via autopep8
@@ -44,7 +42,6 @@ pyscss==1.3.7             # via -r requirements.in
 pytz==2020.1              # via -r requirements.in, celery
 query-string==2019.4.13   # via get
 redis==3.4.1              # via -r requirements.in
-request==2019.4.13        # via -r requirements.in
 requests==2.23.0          # via mandrill
 six==1.14.0               # via bcrypt, flask-cors, pyexecjs, pyscss
 urllib3==1.25.9           # via requests
